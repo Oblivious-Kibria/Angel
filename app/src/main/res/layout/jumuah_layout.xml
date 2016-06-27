@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha=".3"
+        android:background="@drawable/background" />
+
+    <LinearLayout
+        android:id="@+id/timePicker1Holder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#99FFFFFF"
+        android:orientation="vertical">
+
+        <TimePicker
+            android:id="@+id/timePicker6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:focusable="true"
+            android:padding="40dp"/>
+
+        <LinearLayout
+            android:id="@+id/switch1Holder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="20dp">
+
+            <com.hrules.horizontalnumberpicker.HorizontalNumberPicker
+                android:id="@+id/horizontal_number_picker6"
+                android:layout_width="140dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:layout_marginLeft="18dp"
+                android:background="@drawable/rounded_corner" />
+
+            <Switch
+                android:id="@+id/switch6"
+                android:layout_width="140dp"
+                android:layout_height="60dp"
+                android:background="@drawable/rounded_corner"
+                android:focusable="true"
+                android:gravity="center"
+                android:layout_marginLeft="25dp"
+                android:paddingRight="17dp"
+                android:layout_marginRight="20dp"
+                android:text=""
+                android:layout_gravity="bottom" />
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

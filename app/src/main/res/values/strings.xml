@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Angel</string>
+    <string name="title_activity_scrolling">ScrollingActivity</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+   <string-array name="prayer_names">
+       <item>Fajr</item>
+       <item>Zuhr</item>
+       <item>Asr</item>
+       <item>Maghrib</item>
+       <item>Isha</item>
+       <item>Jumuah</item>
+   </string-array>
+</resources>

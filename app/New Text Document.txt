@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="#5C6BC0"
+    tools:context="com.example.amazingaayan.angel.MainActivity">
+
+    <TimePicker
+        android:id="@+id/timePicker1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <Switch
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:id="@+id/switch1"
+        android:layout_below="@+id/timePicker1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Button"
+        android:id="@+id/button"
+        android:onClick="startActivity"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/switch1"
+        android:layout_alignEnd="@+id/switch1" />
+
+
+</RelativeLayout>
+
+
+
+
+
+sharedPrefs = getSharedPreferences("AngelState", MODE_PRIVATE); // name of sharedpreference is AngelState;
+
+        timePicker = (TimePicker) findViewById(R.id.timePicker1);
+        aSwitch = (Switch) findViewById(R.id.switch1);
+
+        aSwitch.setChecked(sharedPrefs.getBoolean("SwitchButtonState", false));
+
+        final Intent myIntent1 = new Intent(MainActivity.this, AlarmReceiver.class);
+        final Intent myIntent2 = new Intent(MainActivity.this, AlarmReceiver.class);
+
+        // Get the alarm manager service
+        alarmManager = (AlarmManager) this.getSystemService(getBaseContext().ALARM_SERVICE);
+
+        calendar = Calendar.getInstance();
+        timePicker_Time = Calendar.getInstance();
+        timePicker_Time_Added = Calendar.getInstance();
+
+        aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+
+                    SharedPreferences.Editor editor = getSharedPreferences("AngelState", MODE_PRIVATE).edit();
+                    editor.putBoolean("SwitchButtonState", true);
+                    editor.apply();
+
+                    hour = timePicker.getCurrentHour();
+                    minute = timePicker.getCurrentMinute();
+
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                        hour = timePicker.getHour();
+                        minute = timePicker.getMinute();
+                    }
+
+                    Toast.makeText(MainActivity.this, "Alarm is ON at Hour : "+hour+" Minute :"+minute, Toast.LENGTH_LONG).show();
+
+                    timePicker_Time.set(Calendar.HOUR_OF_DAY, hour);
+                    timePicker_Time.set(Calendar.MINUTE, minute);
+                    timePicker_Time.set(Calendar.SECOND, 0);
+                    timePicker_Time.set(Calendar.MILLISECOND, 0);
+
+                    // To check if timePickerTime is greater than the current time;
+                    if(timePicker_Time.getTimeInMillis() > calendar.getTimeInMillis()){
+                        myIntent1.putExtra("INTENT_FLAG", intent_FLAG=0);
+                        pending_intent_ON = PendingIntent.getBroadcast(MainActivity.this, 0, myIntent1, pending_intent_ON.FLAG_UPDATE_CURRENT);
+                        alarmManager.set(AlarmManager.RTC_WAKEUP, timePicker_Time.getTimeInMillis(), pending_intent_ON);
+                   }
+
+                    timePicker_Time_Added.set(Calendar.HOUR_OF_DAY, hour);
+                    timePicker_Time_Added.set(Calendar.MINUTE, minute+1);
+                    timePicker_Time_Added.set(Calendar.SECOND, 0);
+                    timePicker_Time_Added.set(Calendar.MILLISECOND, 0);
+
+                    if(timePicker_Time_Added.getTimeInMillis() > calendar.getTimeInMillis()) {
+                        myIntent2.putExtra("INTENT_FLAG", intent_FLAG = 1);
+                        pending_intent_OFF = PendingIntent.getBroadcast(MainActivity.this, 1, myIntent2, pending_intent_OFF.FLAG_UPDATE_CURRENT);
+                        alarmManager.set(AlarmManager.RTC_WAKEUP, timePicker_Time_Added.getTimeInMillis(), pending_intent_OFF);
+                    }
+                }
+                else{
+                    SharedPreferences.Editor editor = getSharedPreferences("AngelState", MODE_PRIVATE).edit();
+                    editor.putBoolean("SwitchButtonState", false);
+                    editor.commit();
+                }
+            }
+        });
+
+
+    }
